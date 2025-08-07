@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scalping Asszisztens</title>
+</head>
+<body>
+  <h2>Feltöltés scalping elemzéshez</h2>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="files" multiple /><br><br>
+    <button type="submit">Elemzés indítása</button>
+  </form>
+  <pre id="result"></pre>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const result = document.getElementById('result');
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const response = await fetch("https://scalping-backend.onrender.com/api/analyze", {
+        method: "POST",
+        body: formData
+      });
+      const data = await response.json();
+      result.textContent = JSON.stringify(data, null, 2);
+    };
+  </script>
+</body>
+</html>
